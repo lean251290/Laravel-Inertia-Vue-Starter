@@ -11,7 +11,8 @@ class AuthenticateController extends Controller
 {
     public function show_login_form()
     {
-        return Inertia::render('Auth/Login');
+        $status = session('status');
+        return Inertia::render('Auth/Login', compact('status'));
     }
 
     public function store(Request $request)

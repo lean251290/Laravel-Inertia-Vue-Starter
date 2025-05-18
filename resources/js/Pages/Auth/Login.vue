@@ -6,9 +6,14 @@ import InputField from '../../Components/InputField.vue';
 import PrimaryBtn from '../../Components/PrimaryBtn.vue';
 import ErrorMessages from '../../Components/ErrorMessages.vue';
 import CheckBox from '../../Components/CheckBox.vue';
+import SessionMessages from '../../Components/SessionMessages.vue';
 
 import { useForm } from '@inertiajs/vue3';
 
+
+defineProps({
+    status: String
+});
 
 const form = useForm({
     email: "",
@@ -19,14 +24,15 @@ const form = useForm({
 
 
 const submit = () => {
-    form.post(route('login.store'), {
+    form.post(route('login'), {
         onFinish: () => form.reset("password")
     })
 }
 </script>
 
 <template>
-    <Head title=" - Login"/>
+
+    <Head title=" - Login" />
     <Container class="w-1/2">
         <div class=" mb-8 text-center ">
             <Title>Login to your account</Title>
@@ -36,7 +42,8 @@ const submit = () => {
         </div>
 
         <!-- ERRORS MESSAGES -->
-         <ErrorMessages :errors="form.errors" />
+        <ErrorMessages :errors="form.errors" />
+        <SessionMessages :status="status" />
         <form @submit.prevent="submit" class="grid gap-4">
 
 
@@ -47,7 +54,7 @@ const submit = () => {
 
             <div class="flex items-center justify-between ">
                 <CheckBox name="remember_me" v-model="form.remember">Remember Me.</CheckBox>
-                <TextLink routeName="home" label="Forgot Password?" />
+                <TextLink routeName="password.request" label="Forgot Password?" />
             </div>
 
             <PrimaryBtn :disabled="form.processing">Login</PrimaryBtn>
